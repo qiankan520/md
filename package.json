@@ -15,6 +15,7 @@
   "engines": {
     "node": ">=22.22.2"
   },
+  "packageManager": "pnpm@9.14.2",
   "scripts": {
     "start": "pnpm web dev",
     "web": "pnpm --filter @md/web",
