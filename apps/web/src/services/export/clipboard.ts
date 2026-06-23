@@ -25,11 +25,35 @@ export function solveWeChatImage(container?: HTMLElement) {
 
 async function mergeCss(html: string): Promise<string> {
   const { default: juice } = await import(`juice`)
-  return juice(html, {
+
+  return juice(cleanInlineStyles(html), {
     inlinePseudoElements: true,
     preserveImportant: true,
     resolveCSSVariables: false,
   })
+}
+
+function cleanInlineStyles(htmlString: string): string {
+  const tempDiv = document.createElement(`div`)
+  tempDiv.innerHTML = htmlString
+
+  tempDiv.querySelectorAll<HTMLElement>(`[style]`).forEach((element) => {
+    const styleText = element.getAttribute(`style`)
+    if (!styleText?.trim()) {
+      element.removeAttribute(`style`)
+      return
+    }
+
+    const normalizedStyleText = element.style.cssText.trim()
+    if (normalizedStyleText) {
+      element.setAttribute(`style`, normalizedStyleText)
+    }
+    else {
+      element.removeAttribute(`style`)
+    }
+  })
+
+  return tempDiv.innerHTML
 }
 
 function modifyHtmlStructure(htmlString: string): string {

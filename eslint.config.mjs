@@ -16,4 +16,9 @@ export default antfu({
     'ts/no-namespace': `off`,
     'style/max-statements-per-line': `off`,
   },
+}, {
+  files: [`package.json`],
+  rules: {
+    'pnpm/json-prefer-workspace-settings': `off`,
+  },
 })
